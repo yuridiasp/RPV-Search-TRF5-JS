@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../../assets/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/style.css">
+    <title>RPV / Precatório Searcher TRF5</title>
+</head>
+<body>
+    <header>
+        <img src="../../assets/icon.png" style="height: 47.27px; width: 50px;" alt="logo_trf5">
+        <h4>RPV / Precatório Searcher TRF5</h4>
+    </header>
+    <main>
+        <section class="localPath">
+            <button id="path">Onde deseja salvar?</button>
+            <p id="displayedPath"></p>
+        </section>
+        <section class="formData">
+            <form id="formulario-busca">
+                <h3>Dados para Pesquisa</h3>
+                <fieldset>
+                    <legend>Data da Autuação:</legend>
+                    <div>
+                        <input type="text" name="dataDe" id="dataDe" placeholder="Insira a data inicial...">
+                        <label for="dataDe">De: (XX/XX/XXXX)</label>
+                    </div>
+                    <div>
+                        <input type="text" name="dataAte" id="dataAte" placeholder="Insira a data final...">
+                        <label for="dataAte">Até: (XX/XX/XXXX)</label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Consultar por:</legend>
+                    <label>OAB:</label>
+                    <select name="oab" id="oab">
+                        <option value="353A" selected>353A</option>
+                        <option value="353">353</option>
+                    </select>
+                    <label>Tipo:</label>
+                    <select name="tipo" id="tipo">
+                        <option value="tiporpv" selected>RPV</option>
+                        <option value="tipoprecatorio">Precatório</option>
+                    </select>
+                </fieldset>
+                <input type="hidden" name="uf" value="SE">
+                <button type="submit">Buscar</button>
+            </form>
+        </section>
+        <section id="results">
+            <h4>Buscando resultados</h4>
+            <p id="progresso"></p>
+            <div class="loader"></div>
+        </section>
+        <section id="results-message">
+        </section>
+        <section>
+            <button id="export-to-excel">Exportar</button>
+        </section>
+    </main>
+    <footer>
+        <p>Copyright © 2024 Yuri Dias Pereira Gomes. Todos os direitos reservados.</p>
+    </footer>
+    <script src="../js/renderer.js" type="module"></script>
+</body>
+</html>

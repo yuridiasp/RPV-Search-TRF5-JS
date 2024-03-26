@@ -1,0 +1,155 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+h2, label {
+    font-size: 5vw;
+    cursor: default;
+}
+
+label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    border-radius: 0.5em;
+    background: midnightblue;
+    color: tomato;
+    width: 80vw;
+    height: 20vh;
+    margin: 1em;
+    font-weight: bold;
+    gap: 1vw;
+}
+
+label:hover, .btn:hover {
+    filter: brightness(1.5);
+}
+
+.buttons {
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2vw;
+}
+
+.aparecer {
+    display: flex;
+    animation-name: showAnimation;
+    animation-duration: 500ms;
+}
+
+@keyframes showAnimation {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+.btn {
+    width: 39vw;
+    height: 10vh;
+    border-radius: 0.5em;
+}
+
+label:active, .btn:active {
+    filter: brightness(0.8)
+}
+
+.confirm {
+    background: rgb(84, 196, 84);
+    border: 0.1em solid rgb(23, 97, 23);
+    color: rgb(23, 97, 23);
+}
+
+.cancel {
+    background: rgb(214, 101, 124);
+    border: 0.1em solid rgb(121, 11, 33);
+    color: rgb(121, 11, 33);
+}
+
+#autor {
+    cursor: pointer;
+}
+
+#logo {
+    margin: 1em 0;
+}
+
+.dev {
+    color: brown;
+}
+
+.container {
+    text-align: center;
+    margin: 10vh 10vw;
+    font-size: 0.7em;
+}
+
+.container h2 {
+    margin-bottom: 5vh;
+}
+
+.container p {
+    margin: 1em;
+}
+
+.container span {
+    font-weight: bold;
+}
+
+.container input {
+    padding: 1vh 10vw;
+    font-weight: bold;
+}
+
+.c-loader {
+    position: absolute;
+    animation: is-rotating 1s infinite;
+    border: 1em solid #c4c4c4;
+    border-radius: 50%;
+    border-top-color: #51d4db;
+    height: 50vh;
+    width: 50vh;
+    transition: 500ms;
+}
+
+.content {
+    text-align: center;
+    transform: scale(1);
+    filter: opacity(1);
+    transition: 500ms;
+}
+
+.hidder{
+    transform: scale(0.5);
+    filter: opacity(0);
+    transition: 500ms;
+}
+
+@keyframes is-rotating {
+    0% {
+        transform: rotate(0) scale(1);
+    }
+    50% {
+        transform: rotate(360deg) scale(0.75);
+    }
+    100% {
+        transform: rotate(720deg) scale(1);
+    }
+}

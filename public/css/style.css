@@ -1,0 +1,171 @@
+:root {
+    --border-input-color: #4B8CCB;
+    --border-input-hover-color: #22517F;
+    --transition: all .2s ease-in-out;
+    --loader-color-primary: #4B8CCB;
+    --loader-color-secundary: #22517F;
+    --button-bg: #FFF;
+    --button-bg-hover: #22517F;
+    --text-color: #4B8CCB;
+    --label-bg: #FFF;
+    --label-color: #A5A5A5;
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    border: none;
+    outline: none;
+}
+
+header, section, footer {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    justify-content: center;
+    margin: 1em 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+fieldset {
+    display: flex;
+    flex-direction: row;
+    padding: 1em;
+    gap: 1em;
+    justify-content: center;
+    align-items: center;
+    border: solid 0.1em var(--border-input-color);
+}
+
+fieldset > div {
+    position: relative;
+    display: flex;
+    gap: 1em;
+}
+
+input {
+    border: solid 0.2em var(--border-input-color);
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+}
+
+input:focus,
+input:hover,
+input:not(:placeholder-shown),
+select:focus,
+select:hover,
+button:focus,
+button:hover {
+    border: solid 0.1em var(--border-input-hover-color);
+}
+
+input::placeholder {
+    opacity: 0;
+}
+
+input:focus::placeholder {
+    opacity: 1;
+}
+
+fieldset > div > label {
+    position: absolute;
+    padding: 0 0.1em;
+    color: var(--label-color);
+    background: var(--label-bg);
+    top: 30%;
+    left: 1em;
+    transform: translateY((50%));
+    transition: var(--transition);
+    font-size: .8em;
+}
+
+input:focus + label,
+input:not(:placeholder-shown) + label {
+    top: -40%;
+    transform: translateY();
+    left: 0.5em;
+    transition: var(--transition);
+}
+
+select {
+    padding: 0.5em 0;
+    width: 50%;
+    text-align: center;
+    border: solid 0.2em var(--border-input-color);
+    border-radius: 0.5em;
+    transition: var(--transition);
+}
+
+button {
+    background: var(--button-bg);
+    border-radius: 0.5em;
+    border: solid 0.1em var(--border-input-color);
+    color: var(--text-color);
+    transition: var(--transition);
+    padding: 0.5em 10em;
+}
+#path {
+    padding: 0.5em 1em;
+}
+
+#displayedPath {
+    pointer-events: none;
+    color: var(--text-color);
+    font-size: clamp(0.5em, 0.5em + 1vw, 0.75em);
+}
+
+button:hover, .input-label-path:hover{
+    background: var(--button-bg-hover);
+    transition: var(--transition);
+}
+
+button:active, .input-label-path:active {
+    filter: brightness(1.5);
+}
+
+.hidden {
+    display: none;
+}
+
+.localPath {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#results {
+    display: none;
+    flex-direction: column;
+}
+
+#export-to-excel {
+    display: none;
+}
+
+.loader {
+    height: 4px;
+    width: 50%;
+    --c:no-repeat linear-gradient(var(--loader-color-secundary) 0 0);
+    background: var(--c),var(--c),var(--loader-color-primary);
+    background-size: 60% 100%;
+    animation: l16 3s infinite;
+}
+
+@keyframes l16 {
+    0%   {background-position:-150% 0,-150% 0}
+    66%  {background-position: 250% 0,-150% 0}
+    100% {background-position: 250% 0, 250% 0}
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
+    font-size: 0.8em;
+}
