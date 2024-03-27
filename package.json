@@ -1,5 +1,5 @@
 {
-  "name": "rpv-search-trf5-js",
+  "name": "searcher-trf5",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,7 +15,9 @@
   "dependencies": {
     "axios": "^1.6.8",
     "cheerio": "^1.0.0-rc.12",
-    "excel4node": "^1.8.2"
+    "excel4node": "^1.8.2",
+    "form-urlencoded": "^6.1.4",
+    "puppeteer": "^22.6.1"
   },
   "type": "module"
 }

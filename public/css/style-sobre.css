@@ -8,67 +8,10 @@
 body {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 100vw;
     height: 100vh;
-    justify-content: center;
-    align-items: center;
-}
-
-h2, label {
-    font-size: 5vw;
-    cursor: default;
-}
-
-label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    border-radius: 0.5em;
-    background: midnightblue;
-    color: tomato;
-    width: 80vw;
-    height: 20vh;
-    margin: 1em;
-    font-weight: bold;
-    gap: 1vw;
-}
-
-label:hover, .btn:hover {
-    filter: brightness(1.5);
-}
-
-.buttons {
-    display: none;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 2vw;
-}
-
-.aparecer {
-    display: flex;
-    animation-name: showAnimation;
-    animation-duration: 500ms;
-}
-
-@keyframes showAnimation {
-    from {
-        transform: scale(0);
-    }
-    to {
-        transform: scale(1);
-    }
-}
-
-.btn {
-    width: 39vw;
-    height: 10vh;
-    border-radius: 0.5em;
-}
-
-label:active, .btn:active {
-    filter: brightness(0.8)
 }
 
 .confirm {
@@ -96,13 +39,14 @@ label:active, .btn:active {
 }
 
 .container {
-    text-align: center;
-    margin: 10vh 10vw;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
     font-size: 0.7em;
-}
-
-.container h2 {
-    margin-bottom: 5vh;
+    text-align: center;
+    margin: 1em;
 }
 
 .container p {
@@ -116,40 +60,4 @@ label:active, .btn:active {
 .container input {
     padding: 1vh 10vw;
     font-weight: bold;
-}
-
-.c-loader {
-    position: absolute;
-    animation: is-rotating 1s infinite;
-    border: 1em solid #c4c4c4;
-    border-radius: 50%;
-    border-top-color: #51d4db;
-    height: 50vh;
-    width: 50vh;
-    transition: 500ms;
-}
-
-.content {
-    text-align: center;
-    transform: scale(1);
-    filter: opacity(1);
-    transition: 500ms;
-}
-
-.hidder{
-    transform: scale(0.5);
-    filter: opacity(0);
-    transition: 500ms;
-}
-
-@keyframes is-rotating {
-    0% {
-        transform: rotate(0) scale(1);
-    }
-    50% {
-        transform: rotate(360deg) scale(0.75);
-    }
-    100% {
-        transform: rotate(720deg) scale(1);
-    }
 }

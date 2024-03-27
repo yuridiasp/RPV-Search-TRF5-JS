@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog, Menu } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog, Menu, shell } from 'electron'
 import { join, dirname } from "path"
 import { fileURLToPath } from 'url'
 import Controller from "./controller/controller.js"
@@ -8,9 +8,9 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const dados = {
-    nomeapp: app.name,
+    nomeapp: app.name.toUpperCase().replace("-", " "),
     autor: 'Yuri Dias Pereira Gomes',
-    version: '1.0.0',
+    version: '1.0.1',
     electronjs: process.versions.electron,
     nodejs: process.version,
     github: 'https://github.com/yuridiasp'
@@ -35,8 +35,9 @@ const templateMenu = [
         }
     }
 ]
+
 const menu = Menu.buildFromTemplate(templateMenu)
-Menu.setApplicationMenu(menu)
+//Menu.setApplicationMenu(menu)
 
 const createWindow = (page, width = 600, height = 800,  webPreference = {}, props = {}) => {
     const win = new BrowserWindow({

@@ -6,19 +6,32 @@ const resultadoMessage = document.querySelector("#results-message")
 const progressoMessage = document.querySelector("#progresso")
 const btnPath = document.querySelector("#path")
 
+function patternDateInput(value) {
+    const regex = /\d{2}\/\d{2}\/\d{2}/
+
+    if (!regex.test(value)) {
+        "".substring()
+    }
+
+    return value
+}
+
 function exibirProgresso() {
     resultsSection.style.display = "flex"
 }
 
 function ocultarProgresso() {
+    displayedPath.innerHTML = ""
     resultsSection.style.display = "none"
 }
 
 
 function changeDisabledInputs (value) {
+    //const { dataDe, dataAte, oab, tipo, cpf } = formBusca
     const { dataDe, dataAte, oab, tipo } = formBusca
     
     const elements = [dataDe, dataAte, oab, tipo]
+    //const elements = [dataDe, dataAte, oab, tipo, cpf]
 
     elements.forEach(e => {
         if (value)
@@ -44,8 +57,11 @@ formBusca.addEventListener('submit', event => {
     event.preventDefault()
     btnExportToExcel.style.display = "none"
     const { dataDe, dataAte, oab, tipo, uf } = formBusca
+    //const { dataDe, dataAte, oab, tipo, uf, cpf } = formBusca
     changeDisabledInputs(true)
+    exibirProgresso()
     window.API.searchRPV({ de: dataDe.value, ate: dataAte.value, oab: oab.value, tipo: tipo.value, uf: uf.value })
+    //window.API.searchRPV({ de: dataDe.value, ate: dataAte.value, oab: oab.value, tipo: tipo.value, uf: uf.value, cpf: (cpf.value === "on") })
 })
 
 window.API.atualizarProgresso((resposta) => {
@@ -53,7 +69,6 @@ window.API.atualizarProgresso((resposta) => {
     const progresso = `${atual} de ${final} páginas.`
     
     progressoMessage.innerHTML = progresso
-    exibirProgresso()
 })
 
 window.API.atualizarPath((path) => {
@@ -78,9 +93,9 @@ window.API.exibirResultado((resposta) => {
     ocultarProgresso()
 });
 
-(() => {
+/* (() => {
     const { dataDe, dataAte } = formBusca
 
     dataDe.value = "28/02/2024"
     dataAte.value = "01/03/2024"
-})()
+})() */

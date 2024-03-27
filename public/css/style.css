@@ -4,11 +4,12 @@
     --transition: all .2s ease-in-out;
     --loader-color-primary: #4B8CCB;
     --loader-color-secundary: #22517F;
-    --button-bg: #FFF;
+    --button-bg: #FFFFFF;
     --button-bg-hover: #22517F;
     --text-color: #4B8CCB;
-    --label-bg: #FFF;
+    --label-bg: #FFFFFF;
     --label-color: #A5A5A5;
+    --footer-bg: #FFFFFF;
 }
 
 * {
@@ -19,12 +20,86 @@
     outline: none;
 }
 
+@media screen and (max-width: 300px) {
+    
+    fieldset {
+        flex-direction: column;
+    }
+
+    fieldset > div > label {
+        opacity: 0;
+    }
+
+    input::placeholder {
+        opacity: 1;
+    }
+
+    .localPath {
+        flex-direction: column;
+    }
+}
+
+@media screen and (min-width: 301px) and (max-width: 500px) {
+    
+    fieldset {
+        flex-direction: column;
+    }
+
+    fieldset > div > label {
+        opacity: 1;
+    }
+
+    input::placeholder {
+        opacity: 0;
+    }
+
+    .localPath {
+        flex-direction: column;
+    }
+}
+
+@media screen and (min-width: 501px) {
+
+    
+    fieldset {
+        flex-direction: row;
+    }
+
+    fieldset > div > label {
+        opacity: 1;
+    }
+
+    input::placeholder {
+        opacity: 0;
+    }
+
+    .localPath {
+        flex-direction: row;
+    }
+}
+
+
 header, section, footer {
     display: flex;
     align-items: center;
     gap: 1em;
     justify-content: center;
-    margin: 1em 0;
+    margin: 5vh 0;
+}
+
+main {
+    margin-bottom: 5em;
+}
+
+footer {
+    position: fixed;
+    margin: 0;
+    padding: 1em 0;
+    bottom: 0;
+    width: 100vw;
+    font-size: 0.8em;
+    background: var(--footer-bg);
+    text-align: center;
 }
 
 form {
@@ -35,8 +110,7 @@ form {
 
 fieldset {
     display: flex;
-    flex-direction: row;
-    padding: 1em;
+    padding: 5vh 5vw;
     gap: 1em;
     justify-content: center;
     align-items: center;
@@ -55,6 +129,11 @@ input {
     border-radius: 0.5em;
 }
 
+input, select {
+    width: 40vw;
+    font-size: clamp(0.5em, 0.5em + 1vw, 0.75em);
+}
+
 input:focus,
 input:hover,
 input:not(:placeholder-shown),
@@ -63,10 +142,6 @@ select:hover,
 button:focus,
 button:hover {
     border: solid 0.1em var(--border-input-hover-color);
-}
-
-input::placeholder {
-    opacity: 0;
 }
 
 input:focus::placeholder {
@@ -82,12 +157,12 @@ fieldset > div > label {
     left: 1em;
     transform: translateY((50%));
     transition: var(--transition);
-    font-size: .8em;
+    font-size: clamp(0.5em, 0.5em + 1vw, 0.75em);
 }
 
 input:focus + label,
 input:not(:placeholder-shown) + label {
-    top: -40%;
+    top: -30%;
     transform: translateY();
     left: 0.5em;
     transition: var(--transition);
@@ -108,8 +183,9 @@ button {
     border: solid 0.1em var(--border-input-color);
     color: var(--text-color);
     transition: var(--transition);
-    padding: 0.5em 10em;
+    padding: 0.5em 5em;
 }
+
 #path {
     padding: 0.5em 1em;
 }
@@ -118,6 +194,12 @@ button {
     pointer-events: none;
     color: var(--text-color);
     font-size: clamp(0.5em, 0.5em + 1vw, 0.75em);
+    word-break: break-all;
+}
+
+.request-cpf > input {
+    width: 2em;
+    height: 2em;
 }
 
 button:hover, .input-label-path:hover{
@@ -137,6 +219,7 @@ button:active, .input-label-path:active {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0 0.5em;
 }
 
 #results {
@@ -161,11 +244,4 @@ button:active, .input-label-path:active {
     0%   {background-position:-150% 0,-150% 0}
     66%  {background-position: 250% 0,-150% 0}
     100% {background-position: 250% 0, 250% 0}
-}
-
-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100vw;
-    font-size: 0.8em;
 }
