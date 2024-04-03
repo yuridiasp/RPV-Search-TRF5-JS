@@ -3,7 +3,7 @@ import { join, dirname } from "path"
 import { fileURLToPath } from 'url'
 import Controller from "./controller/controller.js"
 
-let mainWindow = null, sobreWindow = null, controller = null, pathExportFile = null
+let mainWindow = null, sobreWindow = null, loginWindow = null, controller = null, pathExportFile = null
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
@@ -55,6 +55,19 @@ const createWindow = (page, width = 600, height = 800,  webPreference = {}, prop
     return win
 }
 
+ipcMain.on('abrir-janela-login', () => {
+    if (!loginWindow) {
+        const loginHtml = join(__dirname, 'public', 'html', 'login.html')
+        loginWindow = createWindow(loginHtml, 400, 500, {}, {
+            alwaysOnTop: true,
+            frame: false
+        })
+        loginWindow.on('closed', () => {
+            loginWindow = null
+        })
+    }
+})
+
 function abrirJanelaSobre() {
     if (!sobreWindow) {
         const sobreHtml = join(__dirname, 'public', 'html', 'sobre.html')
@@ -74,7 +87,8 @@ app.whenReady().then(() => {
     controller = new Controller(mainWindow)
   
     app.on('activate', () => {
-      if (BrowserWindow.getAllWindows().length === 0) createWindow()
+      if (BrowserWindow.getAllWindows().length === 0)
+        createWindow()
     })
 })
 
@@ -84,6 +98,11 @@ app.on('window-all-closed', () => {
 
 ipcMain.on('fechar-janela-sobre', () => {
     sobreWindow.close()
+})
+
+ipcMain.on('fechar-janela-login', () => {
+    loginWindow.close()
+    mainWindow.webContents.send('habilitar-form')
 })
 
 ipcMain.handle('get-versions', async () => {
@@ -154,4 +173,26 @@ ipcMain.on('open-directory', () => {
         console.log(err)
         dialog.showErrorBox(mainWindow, { title: "Erro!", content: "Houve um erro para selecionar a pasta." })
     })
+})
+
+ipcMain.on('realizar-login', async (event, dados) => {
+    try {
+        const resultado = await controller.searcher.login(dados)
+
+        if (!resultado)
+            dialog.showErrorBox("Dados não encontrados.", "Verifique as informações fornecidas e tente novamente")
+    
+        mainWindow.webContents.send('is-logado', resultado)
+    } catch (error) {
+        console.log(error)
+        dialog.showErrorBox("Erro no Login", "Tente novamente mais tarde.")
+    }
+})
+
+ipcMain.on('show-message-error', (event, msg) => {
+    const mensagem = [].reduce((acc, cur) => {
+        acc = acc + " | " + cur
+    }, "")
+
+    dialog.showErrorBox("Erro: ", mensagem)
 })

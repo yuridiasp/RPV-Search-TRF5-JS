@@ -1,0 +1,98 @@
+.fdt-login-conteudo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: Arial, 'Times New Roman', sans-serif;
+    line-height: 1.42857143;
+    color: #333;
+    background-image: url("../../assets/grey.png");
+    overflow-y: hidden;
+}
+
+button {
+    display: inline-block;
+    padding: 5px 20px;
+    background: #41baae;
+    color: #fff;
+    border: 1px solid #31877f;
+    border-radius: 3px !important;
+    cursor: pointer;
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+    margin: 0 0 10px;
+}
+
+.form-control {
+    position: relative;
+    z-index: 2;
+    float: left;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+input[type=text] {
+    border-radius: 4px !important;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: none !important;
+    background-color: #fff;
+}
+
+input {
+    height: 35px;
+    border: none;
+    color: #41baae;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.input-group {
+    padding: 4px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    border-collapse: separate;
+}
+
+.input-group-addon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ccc;
+    color: #333;
+    width: 35px;
+    height: 35px;
+    border-bottom: 1px solid #e0e0e0;
+    border-radius: 4px 0 0 4px;
+}
+
+.fa {
+    display: inline-block;
+    font-size: inherit;
+    text-rendering: auto;
+}
+
+#fecharSobre {
+    color: white;
+    padding: 0.5em 3em;
+    background: gray;
+    border-radius: 0.5em;
+    margin-top: 2em;
+}

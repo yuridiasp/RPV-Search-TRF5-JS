@@ -21,14 +21,10 @@ export default class Searcher {
     }
 
     async search (dados) {
-        /* let page = null, browser = null
 
         if (dados.cpf && !this.keys.includes("CPF")) {
             this.keys.splice(4, 0, "CPF")
-            browser = await puppeteer.launch({headless: true})
-            page = await browser.newPage()
-            await this.login(page, "Yuri Dias", "yuri#036",)
-        } */
+        }
 
         this.#initValuesSearch(dados)
         
@@ -44,18 +40,17 @@ export default class Searcher {
 
         await Promise.all(promises)
         
-        /* if (this.keys.includes("CPF")) {
+        if (this.keys.includes("CPF")) {
             for (const processo of this.dataDict['Processo Originário']) {
-                const cpf = await this.buscarCPF(page, processo)
+                const cpf = await this.buscarCPF(processo)
                 this.dataDict['CPF'].push(cpf)
             }
         }
 
-        await browser.close() */
+        await this.browser.close()
 
         return true
     }
-
     
     calcular_pages() {
         const span = this.$("#wrapper > table > tbody > tr > td > table.consulta_paginas > tbody > tr > td > table > tbody > tr > td:nth-child(1) > span")
@@ -91,36 +86,45 @@ export default class Searcher {
         return cheerio.load(content.data)
     }
 
-    async login (page, login, senha) {
-        await page.goto('http://fabioribeiro.eastus.cloudapp.azure.com')
+    async login (login, senha) {
+        this.browser = await puppeteer.launch({headless: true})
+        this.page = await browser.newPage()
 
-        await page.waitForSelector("#login")
+        await this.page.goto('http://fabioribeiro.eastus.cloudapp.azure.com')
 
-        await page.type('input[name="login"]', login)
-        await page.type('input[name="senha"]', senha)
+        await this.page.waitForSelector("#login")
 
-        await page.keyboard.press("Enter")
+        await this.page.type('input[name="login"]', login)
+        await this.page.type('input[name="senha"]', senha)
+
+        await this.page.keyboard.press("Enter")
         
-        await page.waitForNavigation()
+        await this.page.waitForNavigation()
+
+        if (this.page.url() === "http://fabioribeiro.eastus.cloudapp.azure.com/default.asp?msg=falhaLogin") {
+            return false
+        }
         
-        await page.goto('http://fabioribeiro.eastus.cloudapp.azure.com/adv/processos/default.asp')
+        await this.page.goto('http://fabioribeiro.eastus.cloudapp.azure.com/adv/processos/default.asp')
+
+        return true
     }
 
-    async buscarCPF(page, processo) {
+    async buscarCPF(processo) {
 
-        await page.waitForSelector('input[name="bsAdvProcessosTexto"]')
+        await this.page.waitForSelector('input[name="bsAdvProcessosTexto"]')
 
-        await page.type('input[name="bsAdvProcessosTexto"]', processo)
+        await this.page.type('input[name="bsAdvProcessosTexto"]', processo)
         
-        await page.keyboard.press("Enter")
+        await this.page.keyboard.press("Enter")
 
-        await page.waitForNavigation()
+        await this.page.waitForNavigation()
 
         const cpfHtml = "body > section > section > div.fdt-espaco > div > div.fdt-pg-conteudo > div.table-responsive > table > tbody > tr > td:nth-child(5)"
-        const cpfElement = await page.waitForSelector(cpfHtml, {visible: true})
+        const cpfElement = await this.page.waitForSelector(cpfHtml, {visible: true})
         const cpf = await cpfElement?.evaluate(el => el.textContent)
 
-        await page.evaluate(() => {
+        await this.page.evaluate(() => {
             const processoInput = document.documentElement.querySelector('input[name="bsAdvProcessosTexto"]')
             processoInput.value = ""
         })

@@ -6,6 +6,8 @@ const resultadoMessage = document.querySelector("#results-message")
 const progressoMessage = document.querySelector("#progresso")
 const btnPath = document.querySelector("#path")
 
+let busca = null
+
 function patternDateInput(value) {
     const regex = /\d{2}\/\d{2}\/\d{2}/
 
@@ -17,21 +19,22 @@ function patternDateInput(value) {
 }
 
 function exibirProgresso() {
+    resultadoMessage.innerHTML = ""
     resultsSection.style.display = "flex"
 }
 
 function ocultarProgresso() {
-    displayedPath.innerHTML = ""
+    progressoMessage.innerHTML = ""
     resultsSection.style.display = "none"
 }
 
 
 function changeDisabledInputs (value) {
-    //const { dataDe, dataAte, oab, tipo, cpf } = formBusca
-    const { dataDe, dataAte, oab, tipo } = formBusca
+    //const { dataDe, dataAte, oab, tipo } = formBusca
+    //const elements = [dataDe, dataAte, oab, tipo]
     
-    const elements = [dataDe, dataAte, oab, tipo]
-    //const elements = [dataDe, dataAte, oab, tipo, cpf]
+    const { dataDe, dataAte, oab, tipo, cpf } = formBusca
+    const elements = [dataDe, dataAte, oab, tipo, cpf]
 
     elements.forEach(e => {
         if (value)
@@ -56,12 +59,16 @@ inputPath.addEventListener('input', event => {
 formBusca.addEventListener('submit', event => {
     event.preventDefault()
     btnExportToExcel.style.display = "none"
-    const { dataDe, dataAte, oab, tipo, uf } = formBusca
-    //const { dataDe, dataAte, oab, tipo, uf, cpf } = formBusca
+    //const { dataDe, dataAte, oab, tipo, uf } = formBusca
+    const { dataDe, dataAte, oab, tipo, uf, cpf } = formBusca
+    busca = { de: dataDe.value, ate: dataAte.value, oab: oab.value, tipo: tipo.value, uf: uf.value, cpf: (cpf.value === "on") }
     changeDisabledInputs(true)
     exibirProgresso()
-    window.API.searchRPV({ de: dataDe.value, ate: dataAte.value, oab: oab.value, tipo: tipo.value, uf: uf.value })
-    //window.API.searchRPV({ de: dataDe.value, ate: dataAte.value, oab: oab.value, tipo: tipo.value, uf: uf.value, cpf: (cpf.value === "on") })
+    //window.API.searchRPV({ de: dataDe.value, ate: dataAte.value, oab: oab.value, tipo: tipo.value, uf: uf.value })
+    if (!busca.cpf)
+        window.API.searchRPV(busca)
+    else
+        window.API.abrirJanelaLogin()
 })
 
 window.API.atualizarProgresso((resposta) => {
@@ -75,6 +82,19 @@ window.API.atualizarPath((path) => {
     const displayedPath = document.querySelector("#displayedPath")
 
     displayedPath.innerHTML = path
+})
+
+window.API.isLogado((resposta) => {
+    if (resposta) {
+        window.API.searchRPV(busca)
+    } else {
+        
+    }
+})
+
+window.API.habilitarForm(() => {
+    changeDisabledInputs(false)
+    ocultarProgresso()
 })
 
 window.API.exibirResultado((resposta) => {
@@ -94,8 +114,12 @@ window.API.exibirResultado((resposta) => {
 });
 
 /* (() => {
+    window.API.abrirJanelaLogin()
+})() */
+
+(() => {
     const { dataDe, dataAte } = formBusca
 
     dataDe.value = "28/02/2024"
     dataAte.value = "01/03/2024"
-})() */
+})()
