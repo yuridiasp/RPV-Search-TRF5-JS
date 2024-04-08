@@ -5,17 +5,43 @@ const btnExportToExcel = document.querySelector("#export-to-excel")
 const resultadoMessage = document.querySelector("#results-message")
 const progressoMessage = document.querySelector("#progresso")
 const btnPath = document.querySelector("#path")
+const btnBuscar = document.querySelector("#btn-buscar")
 
 let busca = null
 
-function patternDateInput(value) {
-    const regex = /\d{2}\/\d{2}\/\d{2}/
+function formatarData(e) {
+    let input = e.value.replace(/\D/g, ''); // Remove tudo o que não é dígito
+    if (input.length >= 2) input = input.slice(0, 2) + '/' + input.slice(2);
+    if (input.length >= 5) input = input.slice(0, 5) + '/' + input.slice(5, 9);
+    e.value = input.slice(0, 10); // Limita o tamanho máximo e atualiza o valor
+}
 
-    if (!regex.test(value)) {
-        "".substring()
+function validarDataFinal(e) {
+    const valor =  e.value;
+    
+    if (isValid(valor)) {
+        // Exemplo de feedback: alterar a cor de fundo para vermelho claro e exibir uma mensagem de erro.
+        e.style.backgroundColor = '#ffdddd';
+        window.API.showMessageError({titulo: "Data informada não é válida", mensagem: "Insira uma data válida com o formato DD/MM/AAAA"})
+
+        return false
     }
 
-    return value
+    e.style.backgroundColor = ''; // Resetar a cor de fundo se a data for válida ou o campo estiver vazio.
+
+    return true
+}
+
+function verificaData(data) {
+    const [dia, mes, ano] = data.split('/').map(num => parseInt(num, 10));
+    const date = new Date(ano, mes - 1, dia);
+    return date.getFullYear() === ano && date.getMonth() === mes - 1 && date.getDate() === dia;
+}
+
+function isValid(data) {
+    const isValidDate = data.length === 10 && verificaData(data);
+
+    return !isValidDate && data.length > 0
 }
 
 function exibirProgresso() {
@@ -30,11 +56,11 @@ function ocultarProgresso() {
 
 
 function changeDisabledInputs (value) {
-    //const { dataDe, dataAte, oab, tipo } = formBusca
-    //const elements = [dataDe, dataAte, oab, tipo]
+    const { dataDe, dataAte, oab, tipo } = formBusca
+    const elements = [dataDe, dataAte, oab, tipo]
     
-    const { dataDe, dataAte, oab, tipo, cpf } = formBusca
-    const elements = [dataDe, dataAte, oab, tipo, cpf]
+    //const { dataDe, dataAte, oab, tipo, cpf } = formBusca
+    //const elements = [dataDe, dataAte, oab, tipo, cpf]
 
     elements.forEach(e => {
         if (value)
@@ -43,6 +69,11 @@ function changeDisabledInputs (value) {
             e.removeAttribute("disabled")
     })
 }
+
+formBusca.dataDe.addEventListener('input', event => formatarData(event.target));
+formBusca.dataDe.addEventListener('blur', event => validarDataFinal(event.target));
+formBusca.dataAte.addEventListener('input', event => formatarData(event.target));
+formBusca.dataAte.addEventListener('blur', event => validarDataFinal(event.target));
 
 btnPath.addEventListener('click', () => {
     window.API.openDirectory()
@@ -59,16 +90,21 @@ inputPath.addEventListener('input', event => {
 formBusca.addEventListener('submit', event => {
     event.preventDefault()
     btnExportToExcel.style.display = "none"
-    //const { dataDe, dataAte, oab, tipo, uf } = formBusca
-    const { dataDe, dataAte, oab, tipo, uf, cpf } = formBusca
-    busca = { de: dataDe.value, ate: dataAte.value, oab: oab.value, tipo: tipo.value, uf: uf.value, cpf: (cpf.value === "on") }
+    const { dataDe, dataAte, oab, tipo, uf } = formBusca
+    //const { dataDe, dataAte, oab, tipo, uf, cpf } = formBusca
+    //busca = { de: dataDe.value, ate: dataAte.value, oab: oab.value, tipo: tipo.value, uf: uf.value, cpf: (cpf.value === "on") }
     changeDisabledInputs(true)
-    exibirProgresso()
-    //window.API.searchRPV({ de: dataDe.value, ate: dataAte.value, oab: oab.value, tipo: tipo.value, uf: uf.value })
-    if (!busca.cpf)
+
+    if (validarDataFinal(dataDe) && validarDataFinal(dataAte)) {
+        exibirProgresso()
+        window.API.searchRPV({ de: dataDe.value, ate: dataAte.value, oab: oab.value, tipo: tipo.value, uf: uf.value })
+    } else {
+        changeDisabledInputs(false)
+    }
+    /* if (!busca.cpf)
         window.API.searchRPV(busca)
     else
-        window.API.abrirJanelaLogin()
+        window.API.abrirJanelaLogin() */
 })
 
 window.API.atualizarProgresso((resposta) => {
@@ -117,9 +153,9 @@ window.API.exibirResultado((resposta) => {
     window.API.abrirJanelaLogin()
 })() */
 
-(() => {
+/* (() => {
     const { dataDe, dataAte } = formBusca
 
     dataDe.value = "28/02/2024"
     dataAte.value = "01/03/2024"
-})()
+})() */

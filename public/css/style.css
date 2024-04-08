@@ -115,6 +115,7 @@ fieldset {
     justify-content: center;
     align-items: center;
     border: solid 0.1em var(--border-input-color);
+    border-radius: 0.5em;
 }
 
 fieldset > div {

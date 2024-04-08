@@ -37,13 +37,13 @@ const templateMenu = [
 ]
 
 const menu = Menu.buildFromTemplate(templateMenu)
-//Menu.setApplicationMenu(menu)
+Menu.setApplicationMenu(menu)
 
 const createWindow = (page, width = 600, height = 800,  webPreference = {}, props = {}) => {
     const win = new BrowserWindow({
         width: width,
         height: height,
-        icon: join(__dirname,'assets', 'icon.png'),
+        icon: join(__dirname,'images', 'icon.png'),
         webPreferences: {
             preload: join(__dirname, 'preload.js'),
             ...webPreference
@@ -128,10 +128,7 @@ ipcMain.on('search-rpv',async (event, dados) => {
         
         mainWindow.webContents.send('exibir-resultado', resultados)
     } else {
-        dialog.showMessageBox(mainWindow, {
-            title: "Erro",
-            message: "Preenchimento inválido! Favor digitar a data no formato DD/MM/AAAA"
-        })
+        dialog.showErrorBox("Erro", "Preenchimento inválido! Favor digitar a data no formato DD/MM/AAAA")
     }
 })
 
@@ -190,9 +187,6 @@ ipcMain.on('realizar-login', async (event, dados) => {
 })
 
 ipcMain.on('show-message-error', (event, msg) => {
-    const mensagem = [].reduce((acc, cur) => {
-        acc = acc + " | " + cur
-    }, "")
-
-    dialog.showErrorBox("Erro: ", mensagem)
+    const { titulo, mensagem } = msg
+    dialog.showErrorBox(titulo, mensagem)
 })

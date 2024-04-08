@@ -22,9 +22,9 @@ export default class Searcher {
 
     async search (dados) {
 
-        if (dados.cpf && !this.keys.includes("CPF")) {
+        /* if (dados.cpf && !this.keys.includes("CPF")) {
             this.keys.splice(4, 0, "CPF")
-        }
+        } */
 
         this.#initValuesSearch(dados)
         
@@ -40,14 +40,14 @@ export default class Searcher {
 
         await Promise.all(promises)
         
-        if (this.keys.includes("CPF")) {
+        /* if (this.keys.includes("CPF")) {
             for (const processo of this.dataDict['Processo Originário']) {
                 const cpf = await this.buscarCPF(processo)
                 this.dataDict['CPF'].push(cpf)
             }
         }
 
-        await this.browser.close()
+        await this.browser.close() */
 
         return true
     }

@@ -1,20 +1,30 @@
 {
   "name": "searcher-trf5",
   "version": "1.0.0",
-  "description": "",
+  "description": "Aplicação destinada a realizar busca de RPVs e Precatórios do TRF5.",
   "main": "index.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "keywords": [],
-  "author": "",
+  "author": "Yuri Dias Pereira Gomes",
   "license": "ISC",
   "devDependencies": {
+    "@electron-forge/cli": "^7.3.1",
+    "@electron-forge/maker-deb": "^7.3.1",
+    "@electron-forge/maker-rpm": "^7.3.1",
+    "@electron-forge/maker-squirrel": "^7.3.1",
+    "@electron-forge/maker-zip": "^7.3.1",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.3.1",
+    "@electron-forge/plugin-fuses": "^7.3.1",
     "electron": "^29.1.5"
   },
   "dependencies": {
     "axios": "^1.6.8",
     "cheerio": "^1.0.0-rc.12",
+    "electron-squirrel-startup": "^1.0.0",
     "excel4node": "^1.8.2",
     "form-urlencoded": "^6.1.4",
     "puppeteer": "^22.6.1"
