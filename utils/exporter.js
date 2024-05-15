@@ -8,11 +8,14 @@ export default function exportToExcel (caminhoPasta, searcher) {
     const getPathToExport = (caminhoPasta, selectedSearcher) => {
         const deFormatado = selectedSearcher.busca['de'].replaceAll("/", "")
         const ateFormatado = selectedSearcher.busca['ate'].replaceAll("/", "")
-        let tipo = 'PREC'
+        const tipo = selectedSearcher.busca.tipo.map(type => {
+            if (type === "tiporpv") {
+                return "RPV"
+            }
+            return "PREC"
+        })
 
-        if (selectedSearcher.busca.tipo === 'tiporpv') {
-            tipo = 'RPV'
-        }
+        
         return resolve(caminhoPasta, `${tipo}-${selectedSearcher.busca['oab']}-${deFormatado}-${ateFormatado}.xlsx`)
     }
 

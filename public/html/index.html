@@ -23,26 +23,65 @@
                 <fieldset>
                     <legend>Data da Autuação:</legend>
                     <div>
-                        <input type="text" name="dataDe" id="dataDe" placeholder="Insira a data inicial...">
-                        <label for="dataDe">De: (DD/MM/AAAA)</label>
+                        <input class="wd-40vw-clamp" type="text" name="dataDe" id="dataDe" placeholder="Insira a data inicial...">
+                        <label class="label-animated" for="dataDe">De: (DD/MM/AAAA)</label>
                     </div>
                     <div>
-                        <input type="text" name="dataAte" id="dataAte" placeholder="Insira a data final...">
-                        <label for="dataAte">Até: (DD/MM/AAAA)</label>
+                        <input class="wd-40vw-clamp"  type="text" name="dataAte" id="dataAte" placeholder="Insira a data final...">
+                        <label class="label-animated" for="dataAte">Até: (DD/MM/AAAA)</label>
                     </div>
                 </fieldset>
-                <fieldset>
-                    <legend>Consultar por:</legend>
-                    <label>OAB:</label>
-                    <select name="oab" id="oab">
-                        <option value="353A" selected>353A</option>
-                        <option value="353">353</option>
-                    </select>
-                    <label>Tipo:</label>
-                    <select name="tipo" id="tipo">
-                        <option value="tiporpv" selected>RPV</option>
-                        <option value="tipoprecatorio">Precatório</option>
-                    </select>
+                <fieldset class="check-field">
+                    <legend>Tipo:</legend>
+                    <div>
+                        <input type="checkbox" name="tipo" id="tiporpv" value="tiporpv" checked>
+                        <label for="tiporpv">RPV</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="tipo" id="tipoprecatorio" value="tipoprecatorio" checked>
+                        <label for="tipoprecatorio">Precatório</label>
+                    </div>
+                </fieldset>
+                <fieldset class="check-field">
+                    <legend>OAB:</legend>
+                    <div>
+                        <input type="checkbox" name="oab" id="OAB-MT" value="MT006215O" checked>
+                        <label for="OAB-MT">6215/O - MT</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="oab" id="OAB-RJ" value="RJ154765E" checked>
+                        <label for="OAB-RJ">
+                            154765/E - RJ
+                        </label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="oab" id="OAB-BA" value="BA025019" checked>
+                        <label for="OAB-BA">25019 - BA</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="oab" id="OAB-BA" value="BA000353A" checked>
+                        <label for="OAB-BA">353A - BA</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="oab" id="OAB-DF" value="DF035029" checked>
+                        <label for="OAB-DF">35029 - DF</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="oab" id="OAB-GO" value="GO033152" checked>
+                        <label for="OAB-GO">33152 - GO</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="oab" id="OAB-SE" value="SE000353A" checked>
+                        <label for="OAB-SE">353/A - SE</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="oab" id="OAB-SE2" value="SE000353" checked>
+                        <label for="OAB-SE2">353 - SE</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="oab" id="OAB-SP" value="SP451640" checked>
+                        <label for="OAB-SP">451640 - SP</label>
+                    </div>
                 </fieldset>
                 <!-- <fieldset class="request-cpf">
                     <legend>Busca de CPF:</legend>
@@ -55,6 +94,7 @@
         </section>
         <section id="results">
             <h4>Buscando resultados</h4>
+            <p id="progresso-oab-tipo"></p>
             <p id="progresso"></p>
             <div class="loader"></div>
         </section>

@@ -1,6 +1,6 @@
 {
   "name": "searcher-trf5",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Aplicação destinada a realizar busca de RPVs e Precatórios do TRF5.",
   "main": "index.js",
   "scripts": {

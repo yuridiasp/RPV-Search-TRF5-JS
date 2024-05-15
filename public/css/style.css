@@ -124,13 +124,24 @@ fieldset > div {
     gap: 1em;
 }
 
+.check-field {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+}
+
+.check-field > div {
+    display: grid;
+    grid-template-columns: 0.5fr 5fr;
+}
+
 input {
     border: solid 0.2em var(--border-input-color);
     padding: 0.5em 1em;
     border-radius: 0.5em;
 }
 
-input, select {
+.wd-40vw-clamp {
     width: 40vw;
     font-size: clamp(0.5em, 0.5em + 1vw, 0.75em);
 }
@@ -149,7 +160,7 @@ input:focus::placeholder {
     opacity: 1;
 }
 
-fieldset > div > label {
+.label-animated {
     position: absolute;
     padding: 0 0.1em;
     color: var(--label-color);
@@ -161,8 +172,8 @@ fieldset > div > label {
     font-size: clamp(0.5em, 0.5em + 1vw, 0.75em);
 }
 
-input:focus + label,
-input:not(:placeholder-shown) + label {
+input:focus + label.label-animated,
+input:not(:placeholder-shown) + label.label-animated {
     top: -30%;
     transform: translateY();
     left: 0.5em;

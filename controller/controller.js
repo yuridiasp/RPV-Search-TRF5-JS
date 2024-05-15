@@ -30,7 +30,7 @@ export default class Controller {
         }
     }
 
-    atualizar_progresso(atual, final) {
-        this.mainWindow.webContents.send('atualizar-progresso', [atual, final])
+    atualizar_progresso(atual, final, oab, tipo) {
+        this.mainWindow.webContents.send('atualizar-progresso', [atual, final, oab, tipo])
     }
 }
