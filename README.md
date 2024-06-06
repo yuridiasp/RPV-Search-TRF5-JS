@@ -1,5 +1,9 @@
 # Aplicação Electron - RPV Search
 
+<div style="text-align: center;">
+    <img width=250 src="./assets/image.png" />
+</div>
+
 ### Descrição
 Esta aplicação, desenvolvida utilizando Electron, tem como objetivo realizar buscas de processos no TRF5 (Tribunal Regional Federal da 5ª Região), especificamente para RPV (Requisições de Pequeno Valor) e precatórios, e exportar os resultados para uma planilha Excel.
 
@@ -101,7 +105,7 @@ Este projeto está licenciado sob a licença MIT - consulte o arquivo `LICENSE` 
         />
     </a>
       <p>
-        <p>&nbsp&nbspYuri Dias<br>
+        <p>&nbsp&nbsp<a style="color: white;" href="https://github.com/yuridiasp">Yuri Dias</a><br>
         &nbsp&nbsp&nbsp
     </p>
 </p>
