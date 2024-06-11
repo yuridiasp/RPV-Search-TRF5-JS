@@ -1,7 +1,7 @@
 # Aplicação Electron - RPV Search
 
 <div align="center">
-    <img width=250 src="./assets/image.png" />
+    <img width=250 src="./src/assets/image.png" />
 </div>
 
 ### Descrição
