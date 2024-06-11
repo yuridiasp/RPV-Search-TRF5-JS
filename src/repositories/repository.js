@@ -1,23 +1,23 @@
 import * as x1 from "excel4node"
 import { resolve } from "path"
 
+const getPathToExport = (caminhoPasta, selectedSearcher) => {
+    const deFormatado = selectedSearcher.busca['de'].replaceAll("/", "")
+    const ateFormatado = selectedSearcher.busca['ate'].replaceAll("/", "")
+    const tipo = selectedSearcher.busca.tipo.map(type => {
+        if (type === "tiporpv") {
+            return "RPV"
+        }
+        return "PREC"
+    })
+
+    
+    return resolve(caminhoPasta, `${tipo}-${selectedSearcher.busca['oab']}-${deFormatado}-${ateFormatado}.xlsx`)
+}
+
 export default function exportToExcel (caminhoPasta, searcher) {
     const wb = new x1.Workbook()
     const ws = wb.addWorksheet("Resultados")
-
-    const getPathToExport = (caminhoPasta, selectedSearcher) => {
-        const deFormatado = selectedSearcher.busca['de'].replaceAll("/", "")
-        const ateFormatado = selectedSearcher.busca['ate'].replaceAll("/", "")
-        const tipo = selectedSearcher.busca.tipo.map(type => {
-            if (type === "tiporpv") {
-                return "RPV"
-            }
-            return "PREC"
-        })
-
-        
-        return resolve(caminhoPasta, `${tipo}-${selectedSearcher.busca['oab']}-${deFormatado}-${ateFormatado}.xlsx`)
-    }
 
     const caminho = getPathToExport(caminhoPasta, searcher)
 

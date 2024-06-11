@@ -1,12 +1,59 @@
+import exportToExcel from "../repositories/repository.js"
 import * as cheerio from "cheerio"
 import axios from "axios"
 import puppeteer from 'puppeteer';
 
-export default class Searcher {
+export default class Service {
     keys = ['Tipo', 'OAB', 'Processo Originário', 'Processo do TRF5', 'Requisitório', 'Nome', 'Data do Movimento', 'Hora do Movimento', 'Última Movimentação']
+    
+    async search(dados) {
+        try {
+                /* if (dados.cpf && !this.keys.includes("CPF")) {
+                this.keys.splice(4, 0, "CPF")
+            } */
 
-    constructor(controller) {
-        this.controller =  controller
+            this.#initValuesSearch(dados)
+
+            const promises = []
+
+            for (let j = 0; j < this.busca.tipo.length; j++) {
+
+                this.tipo = this.busca.tipo[j]
+
+                for (let c = 0; c < this.busca.oab.length; c++) {
+
+                    this.oab = this.busca.oab[c]
+                    this.progresso = 0
+                    
+                    this.link = `https://cp.trf5.jus.br/processo/rpvprec/rpvPrecOAB/porData/${this.tipo}/ativos/${this.oab}/${this.busca.de}/${this.busca.ate}//`
+                    
+                    let i = 0
+
+                    do {
+                        promises.push(await this.#requesitar_dados(this.link, i))
+                        i++
+                    } while (i < this.pages)
+                }
+            }
+            
+
+            await Promise.all(promises)
+            
+            /* if (this.keys.includes("CPF")) {
+                for (const processo of this.dataDict['Processo Originário']) {
+                    const cpf = await this.#buscarCPF(processo)
+                    this.dataDict['CPF'].push(cpf)
+                }
+            }
+
+            await this.browser.close() */
+
+            return {'resultado': true, 'contagem': this.contagem}
+        }
+        catch(error) {
+            console.log(error)
+            return {'resultado': false, 'contagem': 0}
+        }
     }
 
     #initValuesSearch (dados) {
@@ -19,51 +66,6 @@ export default class Searcher {
         this.keys.forEach(key => { this.dataDict[key] = [] })
     }
 
-    async search (dados) {
-
-        /* if (dados.cpf && !this.keys.includes("CPF")) {
-            this.keys.splice(4, 0, "CPF")
-        } */
-
-        this.#initValuesSearch(dados)
-
-        const promises = []
-
-        for (let j = 0; j < this.busca.tipo.length; j++) {
-
-            this.tipo = this.busca.tipo[j]
-
-            for (let c = 0; c < this.busca.oab.length; c++) {
-
-                this.oab = this.busca.oab[c]
-                this.progresso = 0
-                
-                this.link = `https://cp.trf5.jus.br/processo/rpvprec/rpvPrecOAB/porData/${this.tipo}/ativos/${this.oab}/${this.busca.de}/${this.busca.ate}//`
-                
-                let i = 0
-
-                do {
-                    promises.push(await this.#requesitar_dados(this.link, i))
-                    i++
-                } while (i < this.pages)
-            }
-        }
-        
-
-        await Promise.all(promises)
-        
-        /* if (this.keys.includes("CPF")) {
-            for (const processo of this.dataDict['Processo Originário']) {
-                const cpf = await this.#buscarCPF(processo)
-                this.dataDict['CPF'].push(cpf)
-            }
-        }
-
-        await this.browser.close() */
-
-        return true
-    }
-    
     #calcular_pages() {
         const span = this.$("#wrapper > table > tbody > tr > td > table.consulta_paginas > tbody > tr > td > table > tbody > tr > td:nth-child(1) > span")
         let quantidadeResultados = Number(span.text().split(" ")[1])
@@ -84,7 +86,7 @@ export default class Searcher {
             this.pages = this.#calcular_pages()
         }
 
-        this.controller.atualizar_progresso(this.progresso, this.pages, this.oab, this.tipo)
+        this.#atualizar_progresso(this.progresso, this.pages, this.oab, this.tipo)
 
         return this.#extrair_dados()
     }
@@ -183,6 +185,22 @@ export default class Searcher {
             this.progresso++
         }
         
-        this.controller.atualizar_progresso(this.progresso, this.pages, this.oab, this.tipo)
+        this.#atualizar_progresso(this.progresso, this.pages, this.oab, this.tipo)
+    }
+
+    export(path) {
+        try {
+            exportToExcel(path, this)
+            
+            return true
+        }
+        catch (error) {
+            console.log(error)
+            return false
+        }
+    }
+
+    #atualizar_progresso(atual, final, oab, tipo) {
+        this.mainWindow.webContents.send('atualizar-progresso', [atual, final, oab, tipo])
     }
 }

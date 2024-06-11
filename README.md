@@ -10,36 +10,41 @@ Esta aplicação, desenvolvida utilizando Electron, tem como objetivo realizar b
 ### Estrutura do Projeto
 ```
 RPV-SEARCH-TRF5-JS
-├── controller
-│   └── controller.js
-├── images
-├── model
-│   └── searcher.js
 ├── node_modules
 ├── out
-├── public
-│   ├── css
-│   │   ├── style-login.css
-│   │   ├── style-sobre.css
-│   │   └── style.css
-│   ├── html
-│   │   ├── index.html
-│   │   ├── login.html
-│   │   └── sobre.html
-│   └── js
-│       ├── login.js
-│       ├── renderer.js
-│       └── sobre-script.js
-├── utils
-│   └── exporter.js
+├── src
+│   ├── assets
+│   │   └── image.png
+│   ├── controller
+│   │   └── controller.js
+│   ├── images
+│   │   ├── grey.png
+│   │   ├── icon.ico
+│   │   ├── icon.png
+│   │   └── logotipoSistema.png
+│   ├── model
+│   ├── public
+│   │   ├── css
+│   │   ├── html
+│   │   └── js
+│   ├── repositories
+│   │   └── repository.js
+│   ├── routes
+│   │   └── routes.js
+│   ├── service
+│   │   └── service.js
+│   └── utils
+│       └── template-menu.js
+├── app.js
+├── index.js
+├── preload.js
 ├── .gitattributes
 ├── .gitignore
 ├── forge.config.cjs
-├── index.js
 ├── LICENSE
 ├── package-lock.json
 ├── package.json
-└── preload.js
+└── README.md
 ```
 
 ### Dependências
