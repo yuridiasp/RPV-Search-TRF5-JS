@@ -85,14 +85,7 @@ RPV-SEARCH-TRF5-JS
 #### `index.js`
 Arquivo principal que inicia a aplicação Electron. Ele configura as janelas principais, menu, e trata os eventos IPC.
 
-#### `controller/controller.js`
-Controlador que gerencia a busca de processos e a exportação dos resultados. Utiliza o modelo `Searcher` para realizar as buscas e o utilitário `exporter.js` para exportar os resultados.
-
-#### `utils/exporter.js`
-Utilitário para exportar os dados da busca para uma planilha Excel usando `excel4node`.
-
-#### `model/searcher.js`
-Modelo responsável por realizar as buscas nos sites especificados, utilizando `axios` para requisições HTTP e `cheerio` para análise e extração de dados do HTML.
+...
 
 
 ### Licença
