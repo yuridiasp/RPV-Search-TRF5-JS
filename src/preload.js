@@ -7,10 +7,7 @@ contextBridge.exposeInMainWorld('API', {
   exportarResultados: () => ipcRenderer.send('exportar-resultados'),
   openDirectory: () => ipcRenderer.send('open-directory'),
   atualizarPath: (calback) => ipcRenderer.on('atualizar-path', (event, value) => calback(value)),
-  getVersions: async () => {
-      const result = await ipcRenderer.invoke('get-versions')
-      return result
-  },
+  getVersions: async () => await ipcRenderer.invoke('get-versions'),
   abrirJanelaLogin: () => ipcRenderer.send('abrir-janela-login'),
   realizarLogin: dados => ipcRenderer.send('realizar-login', dados),
   isLogado: (calback) => ipcRenderer.on('is-logado', (event, value) => calback(value)),
