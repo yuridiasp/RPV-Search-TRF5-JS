@@ -1,8 +1,9 @@
 import { app, BrowserWindow } from 'electron'
-
-const { autoUpdater } = require('electron-updater')
+import pkg from 'electron-updater'
 
 import { Application } from './app.js'
+
+const { autoUpdater } = pkg
 
 app.whenReady().then(() => {
     
