@@ -4,7 +4,7 @@ import axios from "axios"
 import puppeteer from 'puppeteer';
 
 export default class Service {
-    keys = ['Tipo', 'OAB', 'Processo Originário', 'Processo do TRF5', 'Requisitório', 'Nome', 'Data do Movimento', 'Hora do Movimento', 'Última Movimentação']
+    keys = ['Tipo', 'OAB/CPF', 'Processo Originário', 'Processo do TRF5', 'Requisitório', 'Nome', 'Data do Movimento', 'Hora do Movimento', 'Última Movimentação']
     
     async search(dados) {
         try {
@@ -21,11 +21,11 @@ export default class Service {
                 this.tipo = this.busca.tipo[j]
 
                 for (let c = 0; c < this.busca.oab.length; c++) {
-
-                    this.oab = this.busca.oab[c]
+                    
+                    this.title = this.busca.oab[c]
                     this.progresso = 0
                     
-                    this.link = `https://cp.trf5.jus.br/processo/rpvprec/rpvPrecOAB/porData/${this.tipo}/ativos/${this.oab}/${this.busca.de}/${this.busca.ate}//`
+                    this.link = `https://cp.trf5.jus.br/processo/rpvprec/rpvPrecOAB/porData/${this.tipo}/ativos/${this.busca.oab[c]}/${this.busca.de}/${this.busca.ate}//`
                     
                     let i = 0
 
@@ -34,6 +34,21 @@ export default class Service {
                         i++
                     } while (i < this.pages)
                 }
+
+                if (this.busca.cpf) {
+                    this.title = this.busca.cpf
+                    this.progresso = 0
+                    
+                    this.link = `https://cp.trf5.jus.br/processo/rpvprec/filtroRPVPrec/cpfcnpj/porData/${this.tipo}/ativos/${this.busca.cpf}/${this.busca.de}/${this.busca.ate}//`
+                    
+                    let i = 0
+    
+                    do {
+                        promises.push(await this.#requesitar_dados(this.link, i))
+                        i++
+                    } while (i < this.pages)
+                }
+
             }
             
 
@@ -57,12 +72,12 @@ export default class Service {
     }
 
     #initValuesSearch (dados) {
-        const { tipo, oab, de, ate, uf } = dados
+        const { tipo, oab, de, ate, uf, cpf } = dados
         this.page = 0
         this.pages = 0
         this.contagem = 0
         this.dataDict = {}
-        this.busca = { tipo, oab, de, ate, uf }
+        this.busca = { tipo, oab, de, ate, uf, cpf }
         this.keys.forEach(key => { this.dataDict[key] = [] })
     }
 
@@ -86,7 +101,7 @@ export default class Service {
             this.pages = this.#calcular_pages()
         }
 
-        this.#atualizar_progresso(this.progresso, this.pages, this.oab, this.tipo)
+        this.#atualizar_progresso(this.progresso, this.pages, this.title, this.tipo)
 
         return this.#extrair_dados()
     }
@@ -170,7 +185,7 @@ export default class Service {
                     const processoOriginario = $("body > table:nth-child(7) > tbody > tr:nth-child(3) > td > u").text()
                     this.dataDict['Processo Originário'].push(processoOriginario)
                     this.dataDict['Requisitório'].push($("body > table:nth-child(7) > tbody > tr:nth-child(4) > td").text().split(":")[1].trim())
-                    this.dataDict['OAB'].push(this.oab)
+                    this.dataDict['OAB/CPF'].push(this.title)
 
                     const tipoBusca = this.tipo === "tiporpv" ? "RPV" : "Precatório"
                     this.dataDict['Tipo'].push(tipoBusca)
@@ -185,19 +200,11 @@ export default class Service {
             this.progresso++
         }
         
-        this.#atualizar_progresso(this.progresso, this.pages, this.oab, this.tipo)
+        this.#atualizar_progresso(this.progresso, this.pages, this.title, this.tipo)
     }
 
     export(path) {
-        try {
-            exportToExcel(path, this)
-            
-            return true
-        }
-        catch (error) {
-            console.log(error)
-            return false
-        }
+        return exportToExcel(path, this)
     }
 
     #atualizar_progresso(atual, final, oab, tipo) {

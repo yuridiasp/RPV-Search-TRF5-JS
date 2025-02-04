@@ -79,8 +79,8 @@ export const exportarResultados = ({ pathExportFile, mainWindow }) => {
         title = "Sucesso!"
         dialog.showMessageBox(mainWindow, { title, message })
     } else {
-        message = "Não foi possível exportar resultado. Tente novamente mais tarde.",
-        title = "Erro interno"
+        message = "Feche o processo que está fazendo uso do arquivo ou salve em uma pasta diferente."
+        title = "O arquivo está sendo usado por outro processo"
         dialog.showErrorBox(title, message)
     }
 }

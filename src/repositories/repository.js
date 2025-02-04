@@ -1,5 +1,6 @@
 import * as x1 from "excel4node"
 import { resolve } from "path"
+import fs from 'fs'
 
 const getPathToExport = (caminhoPasta, selectedSearcher) => {
     const deFormatado = selectedSearcher.busca['de'].replaceAll("/", "")
@@ -13,6 +14,19 @@ const getPathToExport = (caminhoPasta, selectedSearcher) => {
 
     
     return resolve(caminhoPasta, `${tipo}-${selectedSearcher.busca['oab']}-${deFormatado}-${ateFormatado}.xlsx`)
+}
+
+function isFileInUse(filePath) {
+    try {
+        const fd = fs.openSync(filePath, 'r+'); // Tenta abrir o arquivo para leitura e escrita
+        fs.closeSync(fd); // Fecha o arquivo caso tenha sido aberto com sucesso
+        return false; // O arquivo não está em uso
+    } catch (err) {
+        if (err.code === 'EBUSY' || err.code === 'EACCES' || err.code === 'EPERM') {
+            return true; // O arquivo está em uso
+        }
+        return false; // Outro erro ocorreu, mas não indica que o arquivo está em uso
+    }
 }
 
 export default function exportToExcel (caminhoPasta, searcher) {
@@ -51,7 +65,10 @@ export default function exportToExcel (caminhoPasta, searcher) {
                 .style(valueStyle)
         }
     }
-    
+    if (isFileInUse(caminho)) {
+        return false
+    }
 
     wb.write(caminho)
+    return true
 }

@@ -16,7 +16,7 @@ function formatarData(e) {
     e.value = input.slice(0, 10); // Limita o tamanho máximo e atualiza o valor
 }
 
-function validarTipo (tipo) {
+function validarTipo(tipo) {
     const optionNotSelected = !tipo.length
     console.log(optionNotSelected);
     if (optionNotSelected) {
@@ -28,11 +28,26 @@ function validarTipo (tipo) {
     return true
 }
 
-function validarOAB (oab) {
+function validarOAB(oab) {
     const optionNotSelected = !oab.length
-    console.log(optionNotSelected);
+    
     if (optionNotSelected) {
-        window.API.showMessageError({titulo: "OAB não selecionada", mensagem: "Selecione ao menos uma OAB para realizar a busca"})
+        return false
+    }
+    
+    return true
+}
+
+function validarCPF(cpf) {
+    return cpf.checked
+}
+    
+
+function validarOABOrCPF(oab, cpf) {
+    const optionNotSelected = validarCPF(cpf) && validarOAB(oab)
+    
+    if (!optionNotSelected) {
+        window.API.showMessageError({titulo: "OAB ou CPF não selecionado", mensagem: "Selecione ao menos uma OAB ou Busca por CPF para continuar."})
 
         return false
     }
@@ -81,11 +96,8 @@ function ocultarProgresso() {
 
 
 function changeDisabledInputs (value) {
-    const { dataDe, dataAte, oab, tipo } = formBusca
-    const elements = [dataDe, dataAte, oab, tipo]
-    
-    //const { dataDe, dataAte, oab, tipo, cpf } = formBusca
-    //const elements = [dataDe, dataAte, oab, tipo, cpf]
+    const { dataDe, dataAte, oab, tipo, cpf } = formBusca
+    const elements = [dataDe, dataAte, oab, tipo, cpf]
 
     elements.forEach(e => {
         if (value) {
@@ -127,30 +139,20 @@ inputPath.addEventListener('input', event => {
 formBusca.addEventListener('submit', event => {
     event.preventDefault()
     btnExportToExcel.style.display = "none"
-    const { dataDe, dataAte, oab, tipo, uf } = formBusca
+    const { dataDe, dataAte, oab, tipo, uf, cpf } = formBusca
     const oabs = Array.from(oab).filter(node => node.checked).map(node => node.value)
     const tipos = Array.from(tipo).filter(node => node.checked).map(node => node.value)
 
-    console.log(oabs, tipos);
-    
-    //const { dataDe, dataAte, oab, tipo, uf, cpf } = formBusca
-    //busca = { de: dataDe.value, ate: dataAte.value, oab: oab.value, tipo: tipo.value, uf: uf.value, cpf: (cpf.value === "on") }
-
     changeDisabledInputs(true)
 
-    const isValidForm = (validarDataFinal(dataDe) && validarDataFinal(dataAte) && validarOAB(oabs) && validarTipo(tipos))
+    const isValidForm = (validarDataFinal(dataDe) && validarDataFinal(dataAte) && validarOABOrCPF(oab, cpf) && validarTipo(tipos))
 
     if (isValidForm) {
         exibirProgresso()
-        window.API.searchRPV({ de: dataDe.value, ate: dataAte.value, oab: oabs, tipo: tipos, uf: uf.value })
+        window.API.searchRPV({ de: dataDe.value, ate: dataAte.value, oab: oabs, tipo: tipos, uf: uf.value, cpf: cpf.checked ? cpf.value : undefined })
     } else {
         changeDisabledInputs(false)
     }
-    
-    /* if (!busca.cpf)
-        window.API.searchRPV(busca)
-    else
-        window.API.abrirJanelaLogin() */
 })
 
 window.API.atualizarProgresso((resposta) => {
@@ -206,6 +208,6 @@ window.API.exibirResultado((resposta) => {
 /* (() => {
     const { dataDe, dataAte } = formBusca
 
-    dataDe.value = "01/04/2024"
-    dataAte.value = "22/04/2024"
+    dataDe.value = "01/01/2025"
+    dataAte.value = "04/02/2025"
 })() */
