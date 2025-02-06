@@ -1,9 +1,10 @@
 import { app, BrowserWindow } from 'electron'
-import pkg from 'electron-updater'
+import { updateElectronApp } from 'update-electron-app'
+import electronSquirrelStartup from 'electron-squirrel-startup'
 
 import { Application } from './app.js'
 
-const { autoUpdater } = pkg
+if (electronSquirrelStartup) app.quit()
 
 app.whenReady().then(() => {
     
@@ -19,11 +20,4 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit()
 })
 
-autoUpdater.on('update-available', () => {
-    console.log('Nova atualização disponível!')
-})
-  
-autoUpdater.on('update-downloaded', () => {
-    console.log('Atualização baixada, reiniciando...')
-    autoUpdater.quitAndInstall()
-})
+updateElectronApp()

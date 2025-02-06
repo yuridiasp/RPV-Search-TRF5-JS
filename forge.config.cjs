@@ -10,7 +10,9 @@ module.exports = {
           owner: 'yuridiasp',
           name: 'RPV-Search-TRF5-JS'
         },
-        prerelease: false
+        draft: false,
+        prerelease: false,
+        generateReleaseNotes: true
       }
     }
   ],

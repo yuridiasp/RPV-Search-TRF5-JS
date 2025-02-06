@@ -16,7 +16,7 @@ export class Application {
     constructor() {
         const mainWindowPath = ['public', 'html', 'index.html']
         
-        // this.setMenu()
+        this.setMenu()
 
         this.mainWindow = this.createWindow(join(__dirname, ...mainWindowPath))
 
