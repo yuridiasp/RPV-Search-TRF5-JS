@@ -125,22 +125,20 @@ fieldset > div {
 }
 
 .check-field {
-    position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1em;
 }
 
 .check-field > div {
-    display: grid;
-    grid-template-columns: 0.5fr 5fr;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
 }
 
-.check-field > button {
-    position: absolute;
-    right: 0;
-    top: 0;
-    margin-right: 5px;
+.check-field > div > p {
+    color: #A5A5A5;
+    font-size: 0.7em;
 }
 
 input {
@@ -173,7 +171,7 @@ input:focus::placeholder {
     padding: 0 0.1em;
     color: var(--label-color);
     background: var(--label-bg);
-    top: 30%;
+    top: 20%;
     left: 1em;
     transform: translateY((50%));
     transition: var(--transition);
@@ -182,18 +180,9 @@ input:focus::placeholder {
 
 input:focus + label.label-animated,
 input:not(:placeholder-shown) + label.label-animated {
-    top: -30%;
+    top: -20%;
     transform: translateY();
     left: 0.5em;
-    transition: var(--transition);
-}
-
-select {
-    padding: 0.5em 0;
-    width: 50%;
-    text-align: center;
-    border: solid 0.2em var(--border-input-color);
-    border-radius: 0.5em;
     transition: var(--transition);
 }
 
@@ -206,22 +195,6 @@ button {
     padding: 0.5em 5em;
 }
 
-#path {
-    padding: 0.5em 1em;
-}
-
-#displayedPath {
-    pointer-events: none;
-    color: var(--text-color);
-    font-size: clamp(0.5em, 0.5em + 1vw, 0.75em);
-    word-break: break-all;
-}
-
-.request-cpf > input {
-    width: 2em;
-    height: 2em;
-}
-
 button:hover, .input-label-path:hover{
     background: var(--button-bg-hover);
     transition: var(--transition);
@@ -232,22 +205,6 @@ button:active, .input-label-path:active {
 }
 
 .hidden {
-    display: none;
-}
-
-.localPath {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 0.5em;
-}
-
-#results {
-    display: none;
-    flex-direction: column;
-}
-
-#export-to-excel {
     display: none;
 }
 

@@ -11,7 +11,6 @@ const getPathToExport = (caminhoPasta, selectedSearcher) => {
         }
         return "PREC"
     })
-
     
     return resolve(caminhoPasta, `${tipo}-${selectedSearcher.busca['oab']}-${deFormatado}-${ateFormatado}.xlsx`)
 }

@@ -6,6 +6,17 @@ const resultadoMessage = document.querySelector("#results-message")
 const progressoMessage = document.querySelector("#progresso")
 const btnPath = document.querySelector("#path")
 const btnBuscar = document.querySelector("#btn-buscar")
+const addItemParamsBTN = document.querySelectorAll(".addItemParamsBTN")
+
+addItemParamsBTN.forEach(btn => btn.addEventListener("click", event => {
+    const addType = event.target.dataset.type
+    console.log(event.target)
+    switch(addType) {
+        case "oab": window.API.abrirJanelaFormAddItem("oab"); break;
+        case "cpf": window.API.abrirJanelaFormAddItem("cpf"); break;
+        default: return;
+    }
+}))
 
 let busca = null
 

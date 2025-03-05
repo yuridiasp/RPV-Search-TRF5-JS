@@ -12,11 +12,12 @@ export class Application {
     sobreWindow = null
     loginWindow = null
     pathExportFile = null
+    formAddItemWindow = null
 
     constructor() {
         const mainWindowPath = ['public', 'html', 'index.html']
         
-        this.setMenu()
+        //this.setMenu()
 
         this.mainWindow = this.createWindow(join(__dirname, ...mainWindowPath))
 

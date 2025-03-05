@@ -1,14 +1,16 @@
-import exportToExcel from "../repositories/repository.js"
+import exportToExcel from "../repositories/fileReportRepository.js"
 import * as cheerio from "cheerio"
 import axios from "axios"
 import puppeteer from 'puppeteer';
+
+import oabLoaderRepository from "../repositories/oabLoaderRepository.js";
 
 export default class Service {
     keys = ['Tipo', 'OAB/CPF', 'Processo Originário', 'Processo do TRF5', 'Requisitório', 'Nome', 'Data do Movimento', 'Hora do Movimento', 'Última Movimentação']
     
     async search(dados) {
         try {
-                /* if (dados.cpf && !this.keys.includes("CPF")) {
+            /* if (dados.cpf && !this.keys.includes("CPF")) {
                 this.keys.splice(4, 0, "CPF")
             } */
 
@@ -203,11 +205,31 @@ export default class Service {
         this.#atualizar_progresso(this.progresso, this.pages, this.title, this.tipo)
     }
 
+    #atualizar_progresso(atual, final, oab, tipo) {
+        this.mainWindow.webContents.send('atualizar-progresso', [atual, final, oab, tipo])
+    }
+    
     export(path) {
         return exportToExcel(path, this)
     }
+    /* id */
+    deleteItemParamData(id) {
+        return oabLoaderRepository.deleteItem(id)
+    }
+    /* id, updatedItem */
+    updateItemParamData(updatedItem) {
+        return oabLoaderRepository.updateItem(updatedItem.id, updatedItem)
+    }
+    
+    readItemsParamData() {
+        return oabLoaderRepository.readItems()
+    }
 
-    #atualizar_progresso(atual, final, oab, tipo) {
-        this.mainWindow.webContents.send('atualizar-progresso', [atual, final, oab, tipo])
+    getItemParamDataById(id) {
+        return oabLoaderRepository.getItemById(id)
+    }
+    /* { name, label, value } */
+    createItemParamData(newItem) {
+        return oabLoaderRepository.createItem(newItem)
     }
 }

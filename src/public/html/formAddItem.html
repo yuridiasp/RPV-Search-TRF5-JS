@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../../images/icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/style-form-add-item.css">
+    <title>Adicionar/Editar Opção</title>
+</head>
+<body>
+    <main>
+        <section class="formData">
+            <form id="addUpdateOAB">
+                <h3 id="titleForm"></h3>
+                <fieldset class="check-field">
+                    <legend>Dados:</legend>
+                    <input type="hidden" name="idOABForm">
+                    <input type="hidden" name="idCPFForm">
+                    <div>
+                        <input class="wd-40vw-clamp"  type="text" name="labelForm" id="labelForm" placeholder="Texto de exibição">
+                        <label class="label-animated" for="labelForm">Label:</label>
+                        <p id="descriptionLabel">* Informe o texto de identificação que será exibido no formulário na janela inicial</p>
+                    </div>
+                    <div>
+                        <input class="wd-40vw-clamp" type="text" name="valueForm" id="valueForm" placeholder="Insira o valor da OAB">
+                        <label class="label-animated" for="valueForm">Valor:</label>
+                        <p id="descriptionValue"></p>
+                    </div>
+                </fieldset>
+                <button id="btn-gravar" type="submit">Gravar</button>
+            </form>
+        </section>
+    </main>
+    <script src="../js/form-add-item-script.js" />
+</body>
+</html>

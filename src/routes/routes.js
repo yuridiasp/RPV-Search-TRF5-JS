@@ -9,7 +9,12 @@ import { openLoginWindow,
     exportarResultados,
     openDirectory,
     realizarLogin,
-    showMessage,
+    openFormAddItemWindow,
+    createItemParamData,
+    deleteItemParamData,
+    getItemParamDataById,
+    readItemsParamData,
+    updateItemParamData
  } from '../controller/controller.js'
 
 export const routes = (application) => {
@@ -19,6 +24,8 @@ export const routes = (application) => {
     ipcMain.on('fechar-janela-login', () => closeLoginWindow(application))
     
     ipcMain.on('fechar-janela-sobre', () => closeSobreWindow(application))
+
+    ipcMain.on('abrir-janela-form-add-item', (event, type) => openFormAddItemWindow(application, type))
     
     ipcMain.handle('get-versions', () => getVersions(app))
     
@@ -32,5 +39,5 @@ export const routes = (application) => {
     
     ipcMain.on('realizar-login', (event, dados) => realizarLogin(dados, application))
     
-    ipcMain.on('show-message-error', (event, msg) => showMessage(msg))
+    ipcMain.on('show-message-error', (event, message) => dialog.showMessageBox(application.mainWindow, { message }))
 }

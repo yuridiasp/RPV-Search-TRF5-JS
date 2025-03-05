@@ -1,19 +1,42 @@
 import { shell, dialog } from "electron"
+import { join, dirname } from "path"
+import { fileURLToPath } from 'url'
 
 import Service from '../service/service.js'
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+
 const service = new Service()
 
-export const openLoginWindow = ({ loginWindow }) => {
-    if (!loginWindow) {
-        const loginHtml = join(__dirname, 'public', 'html', 'login.html')
-        loginWindow = createWindow(loginHtml, 400, 500, {}, {
+export const openLoginWindow = (application) => {
+    if (!application.loginWindow) {
+        const loginHtml = join(__dirname, "..", 'public', 'html', 'login.html')
+        application.loginWindow = application.createWindow(loginHtml, 400, 500, {}, {
             alwaysOnTop: true,
             frame: false
         })
-        loginWindow.on('closed', () => {
-            loginWindow = null
+        application.loginWindow.on('closed', () => {
+            application.loginWindow = null
         })
+    }
+}
+
+export const openFormAddItemWindow = (application, type) => {
+    if (!application.formAddItemWindow) {
+        const formAddItemWindow = join(__dirname, "..", 'public', 'html', 'formAddItem.html')
+        application.formAddItemWindow = application.createWindow(formAddItemWindow, 400, 500, {}, {
+            frame: false,
+            parent: application.mainWindow,
+            modal: true,
+            show: false
+        })
+        application.formAddItemWindow.on('closed', () => {
+            application.formAddItemWindow = null
+        })
+        
+        application.formAddItemWindow.webContents.send("atualizar-form", { isOAB: true, id: 1, label: "Teste", value: "Teste" })
     }
 }
 
@@ -115,7 +138,89 @@ export const realizarLogin = async (dados, { mainWindow }) => {
     }
 }
 
-export const showMessage = (msg) => {
-    const { titulo, mensagem } = msg
-    dialog.showErrorBox(titulo, mensagem)
+export const deleteItemParamData = (id) => {
+
+    if (!id) {
+        let message = "ID do item buscado não foi passado na requisição.",
+            title = "ID não informado!"
+        dialog.showErrorBox(title, message)
+        
+        return
+    }
+
+    return service.deleteItemParamData(id)
+}
+    
+export const updateItemParamData = (updatedItem) => {
+    const { id, name, label, value } = newItem
+
+    if (!id) {
+        errors.push("id")
+    }
+
+    if (!name) {
+        errors.push("name")
+    }
+
+    if (!label) {
+        errors.push("label")
+    }
+
+    if (!value) {
+        errors.push("value")
+    }
+
+    if (errors.length) {
+        let message = "Informações faltantes: " + errors.join(", "),
+            title = "Error: Campos obrigatórios não informados!"
+        dialog.showErrorBox(title, message)
+        
+        return
+    }
+
+    return service.updateItemParamData(updatedItem.id, updatedItem)
+}
+
+export const readItemsParamData = () => {
+    return service.readItemsParamData()
+}
+
+export const getItemParamDataById = (id) => {
+
+    if (!id) {
+        let message = "ID do item buscado não foi passado na requisição.",
+            title = "ID não informado!"
+        dialog.showErrorBox(title, message)
+        
+        return
+    }
+
+    return service.getItemParamDataById(id)
+}
+
+export const createItemParamData = (newItem) => {
+    const errors = []
+    const { name, label, value } = newItem
+
+    if (!name) {
+        errors.push("name")
+    }
+
+    if (!label) {
+        errors.push("label")
+    }
+
+    if (!value) {
+        errors.push("value")
+    }
+
+    if (errors.length) {
+        let message = "Informações faltantes: " + errors.join(", "),
+            title = "Error: Campos obrigatórios não informados!"
+        dialog.showErrorBox(title, message)
+        
+        return
+    }
+
+    return service.createItemParamData(newItem)
 }
