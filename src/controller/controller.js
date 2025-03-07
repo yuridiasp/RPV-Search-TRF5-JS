@@ -24,19 +24,25 @@ export const openLoginWindow = (application) => {
 }
 
 export const openFormAddItemWindow = (application, type) => {
+    
     if (!application.formAddItemWindow) {
-        const formAddItemWindow = join(__dirname, "..", 'public', 'html', 'formAddItem.html')
-        application.formAddItemWindow = application.createWindow(formAddItemWindow, 400, 500, {}, {
-            frame: false,
+        const formAddItemHtml = join(__dirname, "..", 'public', 'html', 'formAddItem.html')
+        application.formAddItemWindow = application.createWindow(formAddItemHtml, 400, 500, {}, {
             parent: application.mainWindow,
             modal: true,
             show: false
         })
+
         application.formAddItemWindow.on('closed', () => {
             application.formAddItemWindow = null
         })
+
+        application.formAddItemWindow.once('ready-to-show', () => {
+            application.formAddItemWindow.show()
+            application.formAddItemWindow.webContents.send("atualizar-form")
+            console.log("testando...")
+        })
         
-        application.formAddItemWindow.webContents.send("atualizar-form", { isOAB: true, id: 1, label: "Teste", value: "Teste" })
     }
 }
 

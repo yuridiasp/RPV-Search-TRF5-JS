@@ -1,4 +1,4 @@
-import { app, ipcMain } from 'electron'
+import { app, ipcMain, dialog } from 'electron'
 
 import { openLoginWindow,
     closeLoginWindow,
@@ -39,5 +39,5 @@ export const routes = (application) => {
     
     ipcMain.on('realizar-login', (event, dados) => realizarLogin(dados, application))
     
-    ipcMain.on('show-message-error', (event, message) => dialog.showMessageBox(application.mainWindow, { message }))
+    ipcMain.on('show-message-error', (event, { title, message }) => dialog.showErrorBox(title, message))
 }

@@ -124,16 +124,13 @@ fieldset > div {
     gap: 1em;
 }
 
-.check-field {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1em;
-}
-
 .check-field > div {
     display: flex;
     flex-direction: column;
-    gap: 0;
+}
+
+.check-field > div input {
+    width: 100%;
 }
 
 .check-field > div > p {
@@ -171,7 +168,7 @@ input:focus::placeholder {
     padding: 0 0.1em;
     color: var(--label-color);
     background: var(--label-bg);
-    top: 20%;
+    top: 10%;
     left: 1em;
     transform: translateY((50%));
     transition: var(--transition);
@@ -180,7 +177,7 @@ input:focus::placeholder {
 
 input:focus + label.label-animated,
 input:not(:placeholder-shown) + label.label-animated {
-    top: -20%;
+    top: -10%;
     transform: translateY();
     left: 0.5em;
     transition: var(--transition);

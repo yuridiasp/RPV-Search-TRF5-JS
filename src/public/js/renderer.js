@@ -29,9 +29,9 @@ function formatarData(e) {
 
 function validarTipo(tipo) {
     const optionNotSelected = !tipo.length
-    console.log(optionNotSelected);
+    
     if (optionNotSelected) {
-        window.API.showMessageError({titulo: "Tipo não selecionado", mensagem: "Selecione ao menos um Tipo para realizar a busca"})
+        window.API.showMessageError({ title: "Tipo não selecionado", message: "Selecione ao menos um Tipo para realizar a busca"})
 
         return false
     }
@@ -58,7 +58,7 @@ function validarOABOrCPF(oab, cpf) {
     const optionNotSelected = validarCPF(cpf) && validarOAB(oab)
     
     if (!optionNotSelected) {
-        window.API.showMessageError({titulo: "OAB ou CPF não selecionado", mensagem: "Selecione ao menos uma OAB ou Busca por CPF para continuar."})
+        window.API.showMessageError({ title: "OAB ou CPF não selecionado", message: "Selecione ao menos uma OAB ou Busca por CPF para continuar."})
 
         return false
     }
@@ -74,7 +74,7 @@ function validarDataFinal(e) {
         // Exemplo de feedback: alterar a cor de fundo para vermelho claro e exibir uma mensagem de erro.
         e.style.backgroundColor = '#ffdddd';
         resultado = false
-        window.API.showMessageError({titulo: "Data informada não é válida", mensagem: "Insira uma data válida com o formato DD/MM/AAAA"})
+        window.API.showMessageError({ title: "Data informada não é válida", message: "Insira uma data válida com o formato DD/MM/AAAA"})
     }
 
     e.style.backgroundColor = ''; // Resetar a cor de fundo se a data for válida ou o campo estiver vazio.
